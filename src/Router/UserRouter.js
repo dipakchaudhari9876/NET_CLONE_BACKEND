@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const User = require('./../Schema/UserSchema')
+const authenticate = require('../middleware/authenticate')
 
 router.post('/register',async(req,res)=>{
     try{
@@ -45,6 +46,14 @@ router.post('/login',async(req,res)=>{
 
     }catch(err){
         return res.status(400).json({error:"Invalid Credentials"})
+    }
+})
+
+router.get('/details',authenticate,async(req,res)=>{
+    try{
+        return res.status(200).json({email:req.email})
+    }catch(err){
+        console.log(err)
     }
 })
 

@@ -10,11 +10,11 @@ const authenticate = async (req, res, next) => {
         }
 
         const verifyToken = jwt.verify(token,process.env.JWT_SECRET_KEY)
-        const check = await User.findOne({_id:verifyToken._id})
+        const check = await User.findOne({_id:verifyToken.id})
         if(!check){
             return res.status(400).json({ error: "User not verified" })
         }
-
+        req.email = check.email 
         next()
     } catch (err) {
         console.log(err)
